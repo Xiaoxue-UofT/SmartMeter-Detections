@@ -1,0 +1,167 @@
+#include<iostream>
+#include<cstdlib>
+#include<ctime>
+
+using namespace std;
+
+int main()
+{
+    long int rand_num;
+    int tu, p, delay=0, tsm;
+    int tlag=2;
+    time_t timeu, timed1, timed2, timesm;
+    //clock_t t;
+    long int tutility, td1, td2, tdelay, tsmartmeter;
+
+    int m=10, n=0;
+
+    //srand((unsigned int)time(NULL));
+    for(int j=0;j<=m;j++)
+    {
+
+        //The utility side.
+        while(true)
+        {
+             tutility = (unsigned int)time(&timeu);
+             if((tutility%5)==0)
+                break;
+        }
+        cout<<"The utility side time:"<<tutility<<endl;
+
+        //cout << (asctime(gmtime(&timeu))) << endl;
+
+        //srand((unsigned int)time(NULL));
+        //srand(tutility);
+        //rand_num = rand();
+        //tu = rand_num % 10;
+        tu = tutility % 100;
+        cout<<"The tu is:"<<tu<<endl;
+
+        if (tu==0)
+            p=0;
+        else if (tu==10)
+            p=10;
+        else if (tu==20)
+            p=20;
+        else if (tu==30)
+            p=30;
+        else if (tu==40)
+            p=40;
+        else if (tu==50)
+            p=50;
+        else if (tu==60)
+            p=60;
+        else if (tu==70)
+            p=70;
+        else if (tu==80)
+            p=80;
+        else if (tu==90)
+            p=90;
+        if (tu==5)
+            p=5;
+        else if (tu==15)
+            p=15;
+        else if (tu==25)
+            p=25;
+        else if (tu==35)
+            p=35;
+        else if (tu==45)
+            p=45;
+        else if (tu==55)
+            p=55;
+        else if (tu==65)
+            p=65;
+        else if (tu==75)
+            p=75;
+        else if (tu==85)                                                                                                                                                            p=85;                                                                                                                                                               else if (tu==95)
+            p=95;
+
+    cout<<"The price is:"<<p<<endl;
+
+    //To simulate the delay
+    //int delay=0;
+    //clock_t t;
+    //time_t timed1, timed2;
+    //long int td1, td2, tdelay;
+
+    cout<<"Communication start,,,"<<endl;
+    td1=(unsigned int)time(&timed1);
+    //t= clock();
+    for(int j=0; j<511111111;j++)
+    {
+        delay = delay+1;
+    }
+    cout<<"Communication ends,,"<<endl;
+    //t=clock()-t;
+    td2=(unsigned int)time(&timed2);
+    tdelay=td2-td1;
+    cout<<"The Delay is:"<<tdelay<<endl;
+    //cout<<"The clock number is:"<<t<<endl;
+
+    //The smart meter side
+    //srand((unsigned int)time(NULL));
+    //time_t timesm;
+    tsmartmeter= (unsigned int)time(&timesm)- tlag;
+    cout<<"The smart meter side time is:"<<tsmartmeter<<endl;
+    //srand(tsmartmeter);
+    //int tsm=rand() % 100;
+    tsm = tsmartmeter % 100;
+    cout<<"The tsm is:"<<tsm<<endl;
+
+    if ((tsm>=0)&&(tsm<5)&&(p==0))
+        cout<<"True Price"<<endl;
+    else if ((tsm>=5)&&(tsm<10)&&(p==5))
+        cout<<"True Price"<<endl;
+    else if ((tsm>=10)&&(tsm<15)&&(p==10))
+        cout<<"True Price"<<endl;
+    else if ((tsm>=15)&&(tsm<20)&&(p==15))
+            cout<<"True Price"<<endl;
+    else if ((tsm>=20)&&(tsm<25)&&(p==20))
+        cout<<"True Price"<<endl;
+    else if ((tsm>=25)&&(tsm<30)&&(p==25))
+            cout<<"True Price"<<endl;
+    else if ((tsm>=30)&&(tsm<35)&&(p==30))
+        cout<<"True Price"<<endl;
+    else if ((tsm>=35)&&(tsm<40)&&(p==35))
+        cout<<"True Price"<<endl;
+    else if ((tsm>=40)&&(tsm<45)&&(p==40))
+        cout<<"True Price"<<endl;
+    else if ((tsm>=45)&&(tsm<50)&&(p==45))
+        cout<<"True Price"<<endl;
+    else if ((tsm>=50)&&(tsm<55)&&(p==50))
+        cout<<"True Price"<<endl;
+    else if ((tsm>=55)&&(tsm<60)&&(p==55))
+            cout<<"True Price"<<endl;
+    else if ((tsm>=60)&&(tsm<65)&&(p==60))
+        cout<<"True Price"<<endl;
+    else if ((tsm>=65)&&(tsm<70)&&(p==65))
+            cout<<"True Price"<<endl;
+    else if ((tsm>=70)&&(tsm<75)&&(p==70))
+        cout<<"True Price"<<endl;
+    else if ((tsm>=75)&&(tsm<80)&&(p==75))
+            cout<<"True Price"<<endl;
+    else if ((tsm>=80)&&(tsm<85)&&(p==80))
+        cout<<"True Price"<<endl;
+    else if ((tsm>=85)&&(tsm<90)&&(p==85))
+            cout<<"True Price"<<endl;
+    else if ((tsm>=90)&&(tsm<95)&&(p==90))
+        cout<<"True Price"<<endl;
+    else if ((tsm>=95)&&(tsm<100)&&(p==95))
+            cout<<"True Price"<<endl;
+    else
+        {
+            cout<<"False Price"<<endl;
+            n=n+1;
+        }
+
+
+        //cout<<rand_num<<"+"<<tu<<endl;
+    }
+
+    cout<<"The False Positive Rate (FPR)is:"<<(n/m)<<endl;
+
+    // cout<<"The random number is "<< rand_num <<"\t";
+    // cout<<endl;
+
+    return 0;
+}
