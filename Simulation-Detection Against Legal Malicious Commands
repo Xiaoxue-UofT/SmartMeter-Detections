@@ -1,0 +1,134 @@
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+
+using namespace std;
+
+int main()
+{
+    int tu=0, tsm=0, delaysm=0, delaydu=0; //delaysm is of commands, delaydu is of power outage notifications
+    int tlag=0; //tlag=tu-tsm;
+    int ran_notify; //Three types of notifications, can be 0, 1, 2;
+    int ran_delay;//The delay is random but within 5 seconds;
+
+    time_t timeu, timel1, timel2, timesm; //communication latency = timel2 - timel1;
+    long int tutility, tl1, tl2, tsmartmeter;
+    long int log_time; //The time to log the notifications at the detection unit;
+    int log_record; //the log records on the detection unit;
+
+    int interval; //The time interval between the power outage notifications and the disconnection commands;
+
+    int dcmd=0;//The disconnection command, 0 for normal commands, 1 for malicious commands;
+    int alert_num=0; //The number of alerts;
+    int FPR=0;//The false pisitive rate.
+
+    int m=10; // The number of cycle
+    int n=0;
+
+
+    for (int j=0;j<m;j++)
+    {
+        //The utility side-- to send the power outage notifications
+        while(true)
+        {
+            tutility = (unsigned int)time(&timeu);
+            if((tutility%10)==0)
+                break;
+        }
+        //The raw notifications, may be 0, 1, 2;
+        ran_notify= rand()%3;
+        tl1=(unsigned int)time(&timel1);
+
+        //To simulate the communication and delay.
+        cout<<"Notification Communication Start,,"<<endl;
+        cout<<"The utility side time is:"<<tl1<<endl;
+
+        //Keep the communication delays: delaysm, delaydu within 5 seconds.
+        ran_delay = (rand()%5)+1;
+        tl2=(unsigned int)time(&timel2);
+        while(tl2<(tl1+ran_delay))
+        {
+            n=10*10;
+            tl2=(unsigned int)time(&timel2);
+        }
+        delaydu = tl2-tl1;
+        //delaydu = ran_delay;
+        cout<<"The Notification Delay is:"<<delaydu<<endl;
+
+        //The detection unit to log the notification.
+        tsmartmeter = (unsigned int)time(&timesm)+tlag;
+        log_time = tsmartmeter;
+        log_record = ran_notify;
+        cout<<"The log time on the detection unit is:"<<tsmartmeter<<endl;
+        switch(log_record)
+        {
+            case 0:
+                cout<<"Power Outage Notification due to Arrearage"<<endl;
+                break;
+            case 1:
+                cout<<"Power Outage Notification due to Unified Management"<<endl;
+                break;
+            case 2:
+                cout<<"Power Outage Notification due to Lower Power Quality"<<endl;
+                break;
+        }
+
+
+        //The utility to send the disconnection commands, "interval" time after the notifications.
+        dcmd = 0;//The command is normal;
+        tutility = (unsigned int)time(&timeu);
+        while(tutility < (tl1+interval))
+        {
+            n=10*10;
+            tutility = (unsigned int)time(&timeu);
+        }
+        cout<<"The utility side time to send disconnection command is:"<<tutility<<endl;
+
+        //To simulate the delay for disconnection commands
+        tl1 = (unsigned int)time(&timel1);
+
+        ran_delay = (rand()%5)+1; //To simulate the random delay, maybe 1-5 seconds.
+        tl2 = (unsigned int)time(&timel2);
+        while(tl2<(tl1+ran_delay))
+        {
+            n=10*10;
+            tl2=(unsigned int)time(&timel2);
+        }
+        delaysm = tl2-tl1;
+        cout<<"The Disconnection Delay is:"<<delaysm<<endl;
+
+
+        //To simulate the detection process on the detection unit.
+        tsmartmeter = (unsigned int)time(&timesm)+tlag;//"tlag" to describe the clock synchronization of the utility and the SM;
+        int checktime = tsmartmeter - interval;
+        if (checktime <= log_time)
+            switch (log_record)
+            {
+                case 0:
+                    cout<<"Having received Power Outage Notification due to Arrearage."<<endl;
+                    cout<<"The command is NORMAL"<<endl;
+                    break;
+                case 1:
+                    cout<<"Having received Power Outage Notification due to Arrearage."<<endl;
+                    cout<<"The command is NORMAL"<<endl;
+                    break;
+                case 2:
+                    cout<<"Having received Power Outage Notification due to Arrearage."<<endl;
+                    cout<<"The command is NORMAL"<<endl;
+                    break;
+            }
+        else
+        {
+            alert_num = alert_num + 1;
+            cout<<"NO power outage notifications have been received!"<<endl;
+            cout<<"!!ALERT: ABNORMAL/MALICIOUS DISCONNECTION COMMAND!!"<<endl;
+        }
+    } //for-cycle ends.
+
+    FPR = alert_num/m;
+    cout<<"The False Positive Rate is:"<<FPR<<endl;
+
+
+
+    return 0;
+}
